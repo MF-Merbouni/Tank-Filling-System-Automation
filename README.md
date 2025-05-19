@@ -23,4 +23,14 @@ Simulation of an automated tank filling and draining system using Ladder Logic a
 | **CODESYS**   | PLC programming and simulation         |
 | **Structured Text** | Main logic implementation        |
 | **Ladder Logic** | Alternative logic implementation    |
-| **CODESYS Built-in Visualization** | Visualization of the process |
+| **CODESYS Built-in Visualization** | Visualization of the process (HMI)|
+
+---
+
+## How It Works
+
+- **In Auto Mode**: The tank fills automatically until full, then waits for a drain command.
+- **In Manual Mode**: User controls pump and drain valve directly.
+- **Safety Interlock**: Prevents pump and valve from running at the same time.
+- **Timers**: Used to simulate gradual filling/draining.
+- **HMI**: A rectangle shows water level; numerical percentage is displayed using a scaled value.
