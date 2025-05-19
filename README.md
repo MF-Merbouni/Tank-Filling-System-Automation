@@ -14,3 +14,13 @@ Simulation of an automated tank filling and draining system using Ladder Logic a
 -  Timer-based filling and draining with visual animation (HMI)
 -  Value scaling for HMI height animation
 -  Display of fill level as a percentage on screen
+
+
+## Technologies Used
+
+| Tool          | Purpose                               |
+|---------------|----------------------------------------|
+| **CODESYS**   | PLC programming and simulation         |
+| **Structured Text** | Main logic implementation        |
+| **Ladder Logic** | Alternative logic implementation    |
+| **CODESYS Built-in Visualization** | Visualization of the process |
