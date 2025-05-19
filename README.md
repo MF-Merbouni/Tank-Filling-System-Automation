@@ -49,3 +49,15 @@ Simulation of an automated tank filling and draining system using Ladder Logic a
 -  **Variable scaling and visualization** techniques  
 -  **Real-time numeric display of process data**  
 -  **Good coding practices**: modular, readable, and commented logic 
+
+---
+
+## Author
+
+**Mohamed Fathi Merbouni** — Aspiring Automation Engineer
+
+---
+
+## Contributing
+
+Feedback and improvements are welcome. Fork the repo and submit a pull request!
