@@ -39,7 +39,7 @@ Simulation of an automated tank filling and draining system using Ladder Logic a
 
 ## What We Learned
 
-This project was designed to build foundational knowledge in PLC programming and HMI development. Here's what we explored:
+> This project was designed to build foundational knowledge in PLC programming and HMI development. Here's what we explored:
 
 -  **Structured Text (ST)** syntax and logic flow  
 -  **Ladder Logic (LD)** translation and parallel logic building  
