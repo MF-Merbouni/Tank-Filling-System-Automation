@@ -34,3 +34,18 @@ Simulation of an automated tank filling and draining system using Ladder Logic a
 - **Safety Interlock**: Prevents pump and valve from running at the same time.
 - **Timers**: Used to simulate gradual filling/draining.
 - **HMI**: A rectangle shows water level; numerical percentage is displayed using a scaled value.
+
+---
+
+## What We Learned
+
+This project was designed to build foundational knowledge in PLC programming and HMI development. Here's what we explored:
+
+-  **Structured Text (ST)** syntax and logic flow  
+-  **Ladder Logic (LD)** translation and parallel logic building  
+-  **Mode control implementation** (manual vs automatic)  
+-  **Safety interlocks** and conditional protection logic  
+-  **Timers for animation and process simulation**  
+-  **Variable scaling and visualization** techniques  
+-  **Real-time numeric display of process data**  
+-  **Good coding practices**: modular, readable, and commented logic 
