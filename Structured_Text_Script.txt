@@ -1,0 +1,135 @@
+PROGRAM Structured_Text
+VAR
+	//INPUTS
+    start_PB : BOOL;
+	stop_PB : BOOL;
+	drain_valve_B : BOOL;
+	
+	//OUTPUTS
+	pump : BOOL;
+	valve : BOOL;
+	filling_lamp : BOOL;
+	draining_lamp : BOOL;
+	full_lamp : BOOL;
+	alarm_lamp : BOOL;
+	auto_lamp : BOOL;
+	manual_lamp : BOOL;
+	
+	//TIMERS
+	delay_filling : TON;
+	delay_draining : TON;
+	filling_timer_alarm : TON;
+	draining_timer_alarm  : TON;
+	
+	//AUTO/MANUAL MODE
+	auto_mode: BOOL;
+	manual_pump_B : BOOL;
+	manual_valve_B : BOOL;
+	
+	//EXTRAS
+	level : REAL := 0.0;
+	scaled_level : REAL;
+	
+END_VAR
+
+// // // // // // // // // // // // // // // // // // // // // // // //
+
+//Manual mode
+IF auto_mode <> TRUE THEN
+	pump := manual_pump_B AND level < 100.0;
+	valve := manual_valve_B AND level > 0.0;	
+END_IF
+//Safety interlock
+IF auto_mode <> TRUE AND pump AND valve THEN
+	pump := FALSE;
+	valve := FALSE;
+END_IF
+
+auto_lamp := auto_mode;
+manual_lamp := NOT auto_mode;
+
+(* START/STOP CONTROL  *)
+
+//Start logic
+IF start_PB AND level < 100.0 AND auto_mode THEN 
+	pump := TRUE;
+END_IF
+//Stop logic
+IF auto_mode AND (stop_PB OR filling_timer_alarm.Q OR draining_timer_alarm.Q) THEN
+	pump := FALSE;
+	valve := FALSE;
+	alarm_lamp := TRUE;
+END_IF
+
+(*  FILLING LOGIC  *)
+
+//Gradually filling the tank
+IF pump THEN
+	alarm_lamp := FALSE;
+	filling_lamp := TRUE;
+	delay_filling(IN:= TRUE, PT:= T#100MS);
+	filling_timer_alarm(IN:= TRUE, PT:= T#30S);
+ELSE
+	filling_lamp := FALSE;
+	delay_filling(IN := FALSE);
+	filling_timer_alarm(IN:= FALSE);
+END_IF
+//increment level of the liquid by 5 each 100ms
+IF delay_filling.Q AND level < 100.0 THEN
+	level := level + 2.5;
+END_IF
+scaled_level := level * -2.0;
+
+//tank is full
+IF level >= 100.0 THEN 
+	pump := FALSE;
+	full_lamp := TRUE;
+END_IF
+
+(* DRAINING LOGIC  *)
+
+// Drainig the Tank
+IF level > 0.0 AND drain_valve_B THEN
+	pump := FALSE;
+	valve := TRUE;
+END_IF
+//Drain logic
+IF valve THEN
+	alarm_lamp := FALSE;
+	draining_lamp := TRUE;
+	delay_draining(IN:= TRUE, PT:= T#100MS);
+	draining_timer_alarm(IN:= TRUE, PT:= T#30S);
+ELSE
+	draining_lamp := FALSE;
+	delay_draining(IN:= FALSE);
+	draining_timer_alarm(IN:= FALSE);
+END_IF
+//decrement level of the liquid by 5 each 100ms
+IF delay_draining.Q AND level > 0.0 THEN
+	level := level - 2.5;
+END_IF
+scaled_level := level * -2.0;
+
+(*  ALARMS & LIMITS *)
+
+// Tank not full 
+IF level < 100.0 THEN
+	full_lamp := FALSE;
+END_IF
+
+//Tank empty
+IF level <= 0.0 THEN 
+	valve := FALSE;
+END_IF
+
+// Safety Interlock
+IF pump AND valve THEN
+	pump := FALSE;
+	valve := FALSE;
+    alarm_lamp := TRUE;
+END_IF
+
+
+
+
+
